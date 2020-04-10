@@ -28,6 +28,6 @@ precision:0.87980196
 recall:   0.84381022
 fscore:   0.86143031
 ```
-BiLSTM+CRF pytorch实现 参考 {ChineseNER}(https://github.com/buppt/ChineseNER)<br>
-Hmm实现 参考 {HMM}(https://github.com/ldanduo/HMM)<br>
+BiLSTM+CRF pytorch实现 参考 [ChineseNER](https://github.com/buppt/ChineseNER)<br>
+Hmm实现 参考 [HMM](https://github.com/ldanduo/HMM)<br>
 
