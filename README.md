@@ -11,6 +11,11 @@ HMM：<br>
 cd HMM
 python hmm_model.py
 ```
+LSTM：<br>
+```
+cd LSTM
+python train.py
+```
 BiLSTM+CRF：<br>
 ```
 cd BiLSTM-CRF
@@ -23,6 +28,10 @@ embedding_dim=100 hidden_dim=200 epoch=1 lr=0.005
 precision:0.96975528
 recall:   0.96779571
 fscore:   0.96877451
+LSTM：
+precision:0.94323622
+recall:   0.89368218
+fscore:   0.91779080
 HMM:
 precision:0.87980196
 recall:   0.84381022
