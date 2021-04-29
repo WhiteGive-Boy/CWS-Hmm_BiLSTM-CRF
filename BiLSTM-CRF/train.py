@@ -12,7 +12,7 @@ def calculate(x,y,id2word,id2tag,res=[]):
         if id2tag[y[j]]=='B':
             entity=[id2word[x[j]]]
         elif id2tag[y[j]]=='M' and len(entity)!=0:
-            entity.append(id2word[x[j]])
+            entity.append(id2word[x[j]]+'/'+id2tag[y[j]])
         elif id2tag[y[j]]=='E' and len(entity)!=0:
             entity.append(id2word[x[j]])
             res.append(entity)
@@ -26,7 +26,7 @@ def calculate(x,y,id2word,id2tag,res=[]):
     return res
 
 
-with open('../data/datasave.pkl', 'rb') as inp:
+with open('./datasave.pkl', 'rb') as inp:
     word2id = pickle.load(inp)
     id2word = pickle.load(inp)
     tag2id = pickle.load(inp)
@@ -39,25 +39,27 @@ START_TAG = "<START>"
 STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 100
 HIDDEN_DIM = 200
-EPOCHS = 5
+EPOCHS = 1
 LR=0.005
 tag2id[START_TAG]=len(tag2id)
 tag2id[STOP_TAG]=len(tag2id)
 
-model = Model(len(word2id) + 1, tag2id, EMBEDDING_DIM, HIDDEN_DIM)
+model = Model(len(word2id), tag2id, EMBEDDING_DIM, HIDDEN_DIM)
 
 optimizer = optim.SGD(model.parameters(), lr=LR, weight_decay=1e-4)
 
-
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(device)
+model=model.to(device)
 
 for epoch in range(EPOCHS):
     index = 0
     for sentence, tags in zip(x_train, y_train):
         index += 1
         model.zero_grad()
-
-        sentence = torch.tensor(sentence, dtype=torch.long)
-        tags = torch.tensor(tags, dtype=torch.long)
+        
+        sentence = torch.tensor(sentence, dtype=torch.long).to(device)
+        tags = torch.tensor(tags, dtype=torch.long).to(device)
 
         loss = model(sentence, tags)
 
@@ -68,7 +70,7 @@ for epoch in range(EPOCHS):
     entityres = []
     entityall = []
     for sentence, tags in zip(x_test, y_test):
-        sentence = torch.tensor(sentence, dtype=torch.long)
+        sentence = torch.tensor(sentence, dtype=torch.long).to(device)
         score, predict = model.test(sentence)
         entityres = calculate(sentence, predict, id2word, id2tag, entityres)
         entityall = calculate(sentence, tags, id2word, id2tag, entityall)
