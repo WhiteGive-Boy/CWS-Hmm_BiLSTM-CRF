@@ -1,6 +1,5 @@
-# CWS-Hmm_BiLSTM-CRF 
-## CWS中文分词 HMM BiLSTM BiLSTM+CRF pytorch
-## CRF和HMM实现比较细致
+# CWS Chinese word segmentation 中文分词 
+## 实现算法：HMM BiLSTM BiLSTM+CRF
 数据集：人民日报 训练：测试=4：1 <br>
 数据处理：<br>
 ```
